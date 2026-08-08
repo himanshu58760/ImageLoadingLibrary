@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -13,7 +14,10 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    // Compose compiler plugin + buildFeatures enabled when AsyncImage lands (L6).
+    buildFeatures {
+        compose = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -23,6 +27,11 @@ android {
 dependencies {
     api(project(":imageloader-core"))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)
 
     testImplementation(libs.junit)
 }
