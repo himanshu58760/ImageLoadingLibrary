@@ -21,9 +21,13 @@ sealed interface ImageSource : Closeable {
         val file: File,
         private val deleteOnClose: Boolean = false,
     ) : ImageSource {
+        private var closed = false
+
         override fun openStream(): InputStream = FileInputStream(file)
 
         override fun close() {
+            if (closed) return
+            closed = true
             if (deleteOnClose) file.delete()
         }
     }

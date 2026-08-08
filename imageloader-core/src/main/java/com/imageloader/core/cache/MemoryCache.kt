@@ -25,8 +25,9 @@ interface MemoryCache {
     fun trimMemory(level: Int)
 
     /**
-     * Cached decoded image. Callers that retain [image] beyond the cache hit
-     * must [SharedBitmap.acquire]; the cache owns one ref while the entry lives.
+     * Cached decoded image. [get] does not transfer ownership — the cache keeps
+     * its ref. Callers that need the bitmap to outlive eviction should
+     * [SharedBitmap.acquire].
      */
     class Value(
         val image: SharedBitmap,

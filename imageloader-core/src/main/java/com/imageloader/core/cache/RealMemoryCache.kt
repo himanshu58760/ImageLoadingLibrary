@@ -30,10 +30,9 @@ internal class RealMemoryCache(
         get() = synchronized(lock) { currentSize }
 
     override fun get(key: CacheKey): MemoryCache.Value? = synchronized(lock) {
-        val value = map[key] ?: return null
-        // Caller receives an acquired ref; cache keeps its own.
-        value.image.acquire()
-        value
+        // Return without transferring ownership — cache retains its ref.
+        // Callers that need to outlive eviction should call image.acquire().
+        map[key]
     }
 
     override fun set(key: CacheKey, value: MemoryCache.Value) = synchronized(lock) {

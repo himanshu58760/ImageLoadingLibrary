@@ -24,21 +24,18 @@ class RealMemoryCacheTest {
     }
 
     @Test
-    fun set_get_roundTrip_acquiresForCaller() {
+    fun set_get_roundTrip_cacheOwnsRef() {
         val cache = MemoryCache.Builder(RuntimeEnvironment.getApplication())
             .maxSizeBytes(5L * 1024 * 1024)
             .build()
         val key = CacheKey("img-1")
         val image = shared()
         cache.set(key, MemoryCache.Value(image))
+        image.release() // only cache holds a ref
 
         val hit = cache.get(key)
         assertNotNull(hit)
-        // cache ref + caller ref from get (+ original producer still holding 1)
-        assertTrue(hit!!.image.refCount >= 2)
-
-        hit.image.release()
-        image.release()
+        assertTrue(hit!!.image.refCount >= 1)
         cache.clear()
     }
 
@@ -58,9 +55,7 @@ class RealMemoryCacheTest {
         b.release()
 
         assertNull(cache.get(keyA))
-        val hitB = cache.get(keyB)
-        assertNotNull(hitB)
-        hitB!!.image.release()
+        assertNotNull(cache.get(keyB))
         // Evicted A should have been offered to the pool.
         assertTrue(pool.currentSize > 0L)
         cache.clear()
