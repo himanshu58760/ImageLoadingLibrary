@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">ImageLoadingLibarary</string>
+    <string name="app_name">Image Loader Sample</string>
+    <string name="open_views_gallery">RecyclerView gallery (XML)</string>
+    <string name="open_compose_gallery">LazyColumn gallery (Compose)</string>
+    <string name="preload_demo">Preload then open detail</string>
+    <string name="gallery_image">Gallery image</string>
+    <string name="detail_title">Preloaded detail</string>
+    <string name="preload_status">Warming cache…</string>
 </resources>

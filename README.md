@@ -18,8 +18,16 @@ Production-oriented Android image loader (Kotlin, coroutines-only concurrency).
 ./gradlew assembleDebug
 ```
 
+## Sample app
+
+Run `:app` then try:
+
+- **RecyclerView gallery** — XML `ImageView.load` / `clear` on recycle
+- **LazyColumn/Grid gallery** — Compose `AsyncImage` (dispose cancels)
+- **Preload demo** — warms cache then opens a detail screen
+
 ## Status
 
-Leaf-first implementation. See plan for layering (L0 modules → L1 types → …).
+Layers L0–L7: core pipeline + Views/Compose adapters + sample galleries.
 
 Concurrency: **kotlinx-coroutines only** (no RxJava APIs).
